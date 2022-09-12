@@ -1,0 +1,41 @@
+# Assignment 1
+rm(list=ls(all=TRUE)) # clear memory
+set.seed(1)
+
+
+
+# (1)   Load the text file <104_02_assignment1_data.csv> into a data frame called example such that the first row is recognized as containing the column names. Make the columns available for further processing and inspect the structure of the data frame.
+# This file contains corpus data on the verb-particle alternation we already talked about in class many times; the variables and their codings should be self-explanatory.
+example <- read.delim("104_02_assignment1_data.csv" , stringsAsFactors = TRUE)
+attach(example)
+
+
+# (2)   Determine how many animate direct objects there are in the data.
+#summary(example)
+sum(example$DO_ANIMACY == "animate")
+## [1] 27
+# (3)   Create a vector RAND that contains the numbers from 1 to 200 in a random order.
+RAND <- sample(200)
+
+
+# (4)   Create a second data frame example.2 that contains the rows of the data frame example in a random order.
+#example.2 <- rank(example$CASE , ties.method = "random")
+#example$CASE == RAND
+example.2 <- data.frame()
+for (i in 1:200){example.2 <- rbind(example.2, example[RAND[i],])}
+
+
+# (5)   Create a third data frame example.3 that contains only the first 50 rows of example.2.
+example.3 <- example.2[1:50,]
+
+
+# (6)   Create a fourth data frame example.4 that contains only those rows of the data frame example where PP is "no" and DO_ANIMACY is "animate".
+example.4 <- subset(example, example$PP == "no" & example$DO_ANIMACY == "animate")
+
+
+# (7)   Create a fifth data frame example.5 that contains only the first 20 rows of the second to fourth columns of the data frame example.
+example.5 <- example[1:20,2:4]
+
+
+# (8)   Save the fifth data frame into a file <104_02_example5.csv> such that you can easily load/edit it in a spreadsheet software.
+write.table(x=example.5 , file = "104_02_example5.csv" , sep = "\t",quote = FALSE, col.names = TRUE)
